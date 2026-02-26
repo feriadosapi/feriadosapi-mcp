@@ -96,6 +96,20 @@ Obtenha uma API key gratuita em [feriadosapi.com](https://feriadosapi.com) e con
 }
 ```
 
+### GitHub Copilot
+
+```json
+// Configuração do GitHub Copilot MCP
+{
+  "github.copilot.mcp.servers": {
+    "feriadosapi": {
+      "type": "url",
+      "url": "https://mcp.feriadosapi.com/api/mcp?apiKey=SUA_API_KEY"
+    }
+  }
+}
+```
+
 ### Windsurf
 
 ```json
@@ -199,10 +213,11 @@ npm run dev
 npm run build:stdio
 ```
 
-## 📖 Documentação Completa
+## 📖 Links Úteis
 
 - [Feriados API](https://feriadosapi.com)
 - [Documentação da API](https://feriadosapi.com/docs)
+- [Pacote no NPM - @feriados-api/mcp-server](https://www.npmjs.com/package/@feriados-api/mcp-server)
 
 ## 📄 Licença
 
