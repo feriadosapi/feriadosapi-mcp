@@ -1,0 +1,56 @@
+{
+  "name": "@feriados-api/mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server para a API de Feriados Brasileiros — consulte feriados nacionais, estaduais e municipais direto no seu agente de IA",
+  "keywords": [
+    "mcp",
+    "feriados",
+    "brasil",
+    "holidays",
+    "api",
+    "ai",
+    "claude",
+    "gemini",
+    "cursor"
+  ],
+  "bin": {
+    "feriadosapi-mcp": "./dist/stdio.mjs"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "build:stdio": "tsup src/stdio.ts --format esm --outDir dist",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build:stdio"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feriadosapi/feriadosapi-mcp"
+  },
+  "author": "Feriados API <contato@feriadosapi.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.2",
+    "mcp-handler": "^1.0.7",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tsup": "^8.5.1",
+    "typescript": "^5",
+    "vitest": "^4.0.18"
+  }
+}
