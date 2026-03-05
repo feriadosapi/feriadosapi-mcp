@@ -57,18 +57,6 @@ Obtenha uma API key gratuita em [feriadosapi.com](https://feriadosapi.com) e con
 
 ### Claude Desktop / Claude Code
 
-**URL remota:**
-```json
-{
-  "mcpServers": {
-    "feriadosapi": {
-      "url": "https://mcp.feriadosapi.com/api/mcp?apiKey=SUA_API_KEY"
-    }
-  }
-}
-```
-
-**Via stdio:**
 ```json
 {
   "mcpServers": {
@@ -90,7 +78,11 @@ Obtenha uma API key gratuita em [feriadosapi.com](https://feriadosapi.com) e con
 {
   "mcpServers": {
     "feriadosapi": {
-      "url": "https://mcp.feriadosapi.com/api/mcp?apiKey=SUA_API_KEY"
+      "command": "npx",
+      "args": ["-y", "@feriados-api/mcp-server"],
+      "env": {
+        "FERIADOS_API_KEY": "fapi_sua_chave_aqui"
+      }
     }
   }
 }
@@ -103,8 +95,11 @@ Obtenha uma API key gratuita em [feriadosapi.com](https://feriadosapi.com) e con
 {
   "github.copilot.mcp.servers": {
     "feriadosapi": {
-      "type": "url",
-      "url": "https://mcp.feriadosapi.com/api/mcp?apiKey=SUA_API_KEY"
+      "command": "npx",
+      "args": ["-y", "@feriados-api/mcp-server"],
+      "env": {
+        "FERIADOS_API_KEY": "fapi_sua_chave_aqui"
+      }
     }
   }
 }
@@ -117,7 +112,11 @@ Obtenha uma API key gratuita em [feriadosapi.com](https://feriadosapi.com) e con
 {
   "mcpServers": {
     "feriadosapi": {
-      "serverUrl": "https://mcp.feriadosapi.com/api/mcp?apiKey=SUA_API_KEY"
+      "command": "npx",
+      "args": ["-y", "@feriados-api/mcp-server"],
+      "env": {
+        "FERIADOS_API_KEY": "fapi_sua_chave_aqui"
+      }
     }
   }
 }
@@ -130,7 +129,11 @@ Obtenha uma API key gratuita em [feriadosapi.com](https://feriadosapi.com) e con
 {
   "mcpServers": {
     "feriadosapi": {
-      "httpUrl": "https://mcp.feriadosapi.com/api/mcp?apiKey=SUA_API_KEY"
+      "command": "npx",
+      "args": ["-y", "@feriados-api/mcp-server"],
+      "env": {
+        "FERIADOS_API_KEY": "fapi_sua_chave_aqui"
+      }
     }
   }
 }
@@ -160,8 +163,11 @@ Obtenha uma API key gratuita em [feriadosapi.com](https://feriadosapi.com) e con
 {
   "mcpServers": {
     "feriadosapi": {
-      "type": "url",
-      "url": "https://mcp.feriadosapi.com/api/mcp?apiKey=SUA_API_KEY"
+      "command": "npx",
+      "args": ["-y", "@feriados-api/mcp-server"],
+      "env": {
+        "FERIADOS_API_KEY": "fapi_sua_chave_aqui"
+      }
     }
   }
 }
