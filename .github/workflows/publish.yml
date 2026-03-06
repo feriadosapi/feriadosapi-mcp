@@ -7,6 +7,9 @@ on:
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for provenance (OIDC)
+      contents: read
     steps:
       - uses: actions/checkout@v4
       
@@ -22,6 +25,4 @@ jobs:
         run: npm run build:stdio
 
       - name: Publish package
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        run: npm publish --access public --provenance
