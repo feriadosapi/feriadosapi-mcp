@@ -1,18 +1,24 @@
-name: Publish to npm
+name: Release & Publish
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*' # Dispara quando uma tag começando com 'v' for enviada (ex: v1.0.2)
 
 jobs:
-  publish-npm:
+  release-and-publish:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write # Required for provenance (OIDC)
-      contents: read
+      contents: write # Necessário para criar a Release no GitHub
+      id-token: write # Necessário para assinar o pacote no NPM (OIDC)
     steps:
       - uses: actions/checkout@v4
       
+      - name: Generate Release Notes & Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true # Gera as notas de lançamento automaticamente baseadas nos PRs/Commits
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
