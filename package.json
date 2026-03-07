@@ -1,6 +1,6 @@
 {
   "name": "@feriados-api/mcp-server",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "MCP Server para a API de Feriados Brasileiros — consulte feriados nacionais, estaduais e municipais direto no seu agente de IA",
   "keywords": [
     "mcp",
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/feriadosapi/feriadosapi-mcp"
+    "url": "git+https://github.com/feriadosapi/feriadosapi-mcp.git"
   },
   "author": "Feriados API <contato@feriadosapi.com>",
   "license": "MIT",

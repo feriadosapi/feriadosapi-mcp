@@ -1,36 +1,37 @@
-name: Release & Publish
+name: Publish to npm
 
+# Aciona o workflow sempre que uma nova Release for publicada no GitHub
 on:
-  push:
-    tags:
-      - 'v*' # Dispara quando uma tag começando com 'v' for enviada (ex: v1.0.2)
+  release:
+    types: [published]
 
 jobs:
-  release-and-publish:
+  publish:
+    name: Build and Publish
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Necessário para criar a Release no GitHub
-      id-token: write # Necessário para assinar o pacote no NPM (OIDC)
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Generate Release Notes & Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true # Gera as notas de lançamento automaticamente baseadas nos PRs/Commits
 
-      - uses: actions/setup-node@v4
+    # PERMISSÕES OBRIGATÓRIAS PARA OIDC E PROVENANCE
+    permissions:
+      contents: read
+      id-token: write # Necessário para solicitar o token OIDC do GitHub em background
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20.x' # Use Node 20.x ou 22.x
           registry-url: 'https://registry.npmjs.org'
-          
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build stdio (npm package)
-        run: npm run build:stdio
+        run: npm run build:stdio 
 
+      # Publica no npm usando OIDC. 
+      # O segredo NPM_TOKEN não é mais necessário!
       - name: Publish package
         run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
