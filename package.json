@@ -1,6 +1,6 @@
 {
   "name": "@feriados-api/mcp-server",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "MCP Server para a API de Feriados Brasileiros — consulte feriados nacionais, estaduais e municipais direto no seu agente de IA",
   "publishConfig": {
     "access": "public"
@@ -29,8 +29,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "prepublishOnly": "npm run build:stdio"
+    "test:watch": "vitest"
   },
   "repository": {
     "type": "git",
