@@ -3,7 +3,11 @@
 Consulte feriados brasileiros (nacionais, estaduais e municipais) direto no seu
 agente de IA favorito usando o [Model Context Protocol](https://modelcontextprotocol.io).
 
-[![npm version](https://img.shields.io/npm/v/@feriados-api/mcp-server)](https://www.npmjs.com/package/@feriados-api/mcp-server)
+[![npm version](https://img.shields.io/npm/v/@feriados-api/mcp-server?style=flat-square&color=blue)](https://www.npmjs.com/package/@feriados-api/mcp-server)
+[![npm downloads](https://img.shields.io/npm/dm/@feriados-api/mcp-server?style=flat-square&color=success)](https://www.npmjs.com/package/@feriados-api/mcp-server)
+[![GitHub issues](https://img.shields.io/github/issues/feriadosapi/feriadosapi-mcp?style=flat-square)](https://github.com/feriadosapi/feriadosapi-mcp/issues)
+[![GitHub last commit](https://img.shields.io/github/last-commit/feriadosapi/feriadosapi-mcp?style=flat-square)](https://github.com/feriadosapi/feriadosapi-mcp/commits/main)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
 <a href="https://glama.ai/mcp/servers/@feriadosapi/feriadosapi">
 <img width="380" height="200" src="https://glama.ai/mcp/servers/@feriadosapi/feriadosapi/badge" />
