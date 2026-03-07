@@ -8,6 +8,7 @@ agente de IA favorito usando o [Model Context Protocol](https://modelcontextprot
 [![GitHub issues](https://img.shields.io/github/issues/feriadosapi/feriadosapi-mcp?style=flat-square)](https://github.com/feriadosapi/feriadosapi-mcp/issues)
 [![GitHub last commit](https://img.shields.io/github/last-commit/feriadosapi/feriadosapi-mcp?style=flat-square)](https://github.com/feriadosapi/feriadosapi-mcp/commits/main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![smithery badge](https://smithery.ai/badge/feriadosapi/brazilian-holidays)](https://smithery.ai/servers/feriadosapi/brazilian-holidays)
 
 <a href="https://glama.ai/mcp/servers/@feriadosapi/feriadosapi">
 <img width="380" height="200" src="https://glama.ai/mcp/servers/@feriadosapi/feriadosapi/badge" />
