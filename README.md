@@ -220,6 +220,10 @@ npm install
 # Configurar variáveis de ambiente
 cp .env.example .env.local
 # Editar .env.local com sua FERIADOS_API_KEY
+# Opcional: NEXT_PUBLIC_GA_ID=G-LS0CTT1B6F
+# Opcional: NEXT_PUBLIC_MICROSOFT_CLARITY_ID=seu_project_id
+# Opcional: NEXT_PUBLIC_CLARITY_ID=seu_project_id
+# Fallback opcional: CLARITY_ID=seu_project_id
 
 # Rodar em desenvolvimento
 npm run dev
@@ -227,6 +231,18 @@ npm run dev
 # Build do stdio (para publicação npm)
 npm run build:stdio
 ```
+
+O `Google Analytics` usa por padrão a mesma chave do `feriados-lp`
+(`G-LS0CTT1B6F`), com possibilidade de sobrescrever via
+`NEXT_PUBLIC_GA_ID`. Ele só é carregado em produção e no host
+`mcp.feriadosapi.com`.
+
+O `Microsoft Clarity` usa por padrão a mesma chave do `feriados-lp`
+(`vspomwuxio`), com possibilidade de sobrescrever via
+`NEXT_PUBLIC_MICROSOFT_CLARITY_ID`, `NEXT_PUBLIC_CLARITY_ID` ou `CLARITY_ID`.
+Ele só é carregado em produção e no host `mcp.feriadosapi.com`. A prioridade é
+`NEXT_PUBLIC_MICROSOFT_CLARITY_ID`, depois `NEXT_PUBLIC_CLARITY_ID`, depois
+`CLARITY_ID`.
 
 ## 📖 Links Úteis
 
