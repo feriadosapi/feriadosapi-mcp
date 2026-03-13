@@ -14,6 +14,10 @@ agente de IA favorito usando o [Model Context Protocol](https://modelcontextprot
 <img width="380" height="200" src="https://glama.ai/mcp/servers/@feriadosapi/feriadosapi/badge" />
 </a>
 
+<a href="https://glama.ai/mcp/servers/@feriadosapi/feriadosapi">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@feriadosapi/feriadosapi/badge" alt="feriadosapi MCP server" />
+</a>
+
 ## ⚡ Quick Start
 
 ### Opção 1: URL Remota (recomendado)
