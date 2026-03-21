@@ -137,7 +137,7 @@ describe("feriadosApi", () => {
         });
 
         await expect(feriadosApi({ path: "/feriados" })).rejects.toThrow(
-            "Cota mensal excedida"
+            "Rate limit excedido"
         );
     });
 

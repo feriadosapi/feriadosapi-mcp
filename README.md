@@ -30,7 +30,7 @@ https://mcp.feriadosapi.com/api/mcp
 https://mcp.feriadosapi.com/api/mcp?apiKey=fapi_sua_chave_aqui
 ```
 
-> 💡 Crie uma conta gratuita em [feriadosapi.com](https://feriadosapi.com) para obter sua API key — acesso ilimitado a feriados nacionais, estaduais e capitais (10 req/min).
+> 💡 Crie uma conta gratuita em [feriadosapi.com](https://feriadosapi.com) para obter sua API key — acesso ilimitado a feriados nacionais, estaduais e capitais (60 req/min).
 
 ### Opção 2: Via npx (local)
 
@@ -200,7 +200,7 @@ Após configurar, pergunte ao seu agente:
 
 ## 🔑 Autenticação
 
-Uma API key é **obrigatória**. Crie uma conta gratuita em [feriadosapi.com](https://feriadosapi.com) (acesso ilimitado, 10 req/min) e passe sua chave:
+Uma API key é **obrigatória**. Crie uma conta gratuita em [feriadosapi.com](https://feriadosapi.com) (acesso ilimitado, 60 req/min) e passe sua chave:
 
 - **Via URL remota:** `?apiKey=fapi_xxx` na URL do MCP
 - **Via stdio (local):** env var `FERIADOS_API_KEY`

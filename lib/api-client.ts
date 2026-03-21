@@ -56,7 +56,7 @@ export async function feriadosApi<T>(options: ApiRequestOptions): Promise<T> {
                 throw new Error(`Acesso negado: ${errorMessage}`);
             case 429:
                 throw new Error(
-                    "Cota mensal excedida. Faça upgrade em https://feriadosapi.com/dashboard"
+                    "Rate limit excedido. Plano Free: 60 req/min. Para remover limites, faça upgrade em https://feriadosapi.com/dashboard"
                 );
             case 404:
                 throw new Error(`Recurso não encontrado: ${errorMessage}`);
