@@ -26,7 +26,7 @@ export function CTA() {
                     margin: "0 auto 32px",
                 }}
             >
-                Crie uma conta gratuita na Feriados API e receba 100 requisições/mês sem custo
+                Crie uma conta gratuita na Feriados API — acesso ilimitado a feriados nacionais, estaduais e capitais.
             </p>
             <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
                 <a

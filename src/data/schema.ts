@@ -16,6 +16,6 @@ export const jsonLd = {
         "@type": "Offer",
         price: "0",
         priceCurrency: "BRL",
-        description: "100 requisições/mês grátis",
+        description: "Gratuito — acesso ilimitado a feriados nacionais, estaduais e capitais",
     },
 };
