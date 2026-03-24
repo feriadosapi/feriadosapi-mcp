@@ -12,8 +12,9 @@ export const toolDetails = [
             { name: "ibge", type: "string", required: false, desc: "Código IBGE do município", example: "3550308" },
             { name: "ano", type: "string", required: false, desc: "Ano com 4 dígitos", example: "2026" },
             { name: "month", type: "string", required: false, desc: "Mês (1-12). Requer 'ano'", example: "12" },
+            { name: "bancarios", type: "boolean", required: false, desc: "Se true, retorna apenas feriados bancários (FEBRABAN)", example: "true" },
         ],
-        returns: "Lista paginada de feriados com nome, data (DD/MM/YYYY), tipo e descrição.",
+        returns: "Lista paginada de feriados com nome, data (DD/MM/YYYY), tipo, descrição e indicador bancário.",
     },
     {
         name: "feriados_nacionais",
@@ -24,8 +25,9 @@ export const toolDetails = [
         params: [
             { name: "ano", type: "string", required: false, desc: "Ano com 4 dígitos. Se omitido, retorna todos os anos", example: "2026" },
             { name: "facultativos", type: "boolean", required: false, desc: "Incluir feriados facultativos (Carnaval, Corpus Christi)", example: "true" },
+            { name: "bancarios", type: "boolean", required: false, desc: "Se true, retorna apenas feriados bancários (FEBRABAN)", example: "true" },
         ],
-        returns: "Lista de feriados nacionais com nome, data, tipo e descrição.",
+        returns: "Lista de feriados nacionais com nome, data, tipo, descrição e indicador bancário.",
     },
     {
         name: "feriados_por_estado",
@@ -37,8 +39,9 @@ export const toolDetails = [
             { name: "uf", type: "string", required: true, desc: "Sigla do estado em maiúsculas (2 letras)", example: "RJ" },
             { name: "ano", type: "string", required: false, desc: "Ano com 4 dígitos", example: "2026" },
             { name: "facultativos", type: "boolean", required: false, desc: "Incluir feriados facultativos do estado", example: "true" },
+            { name: "bancarios", type: "boolean", required: false, desc: "Se true, retorna apenas feriados bancários (FEBRABAN)", example: "true" },
         ],
-        returns: "Lista de feriados nacionais e estaduais do UF informado.",
+        returns: "Lista de feriados nacionais e estaduais do UF informado, com indicador bancário.",
     },
     {
         name: "feriados_por_cidade",
@@ -50,8 +53,9 @@ export const toolDetails = [
             { name: "ibge", type: "string", required: true, desc: "Código IBGE do município. Use 'buscar_municipios' para encontrar", example: "3550308" },
             { name: "ano", type: "string", required: false, desc: "Ano com 4 dígitos", example: "2026" },
             { name: "facultativos", type: "boolean", required: false, desc: "Incluir feriados facultativos", example: "true" },
+            { name: "bancarios", type: "boolean", required: false, desc: "Se true, retorna apenas feriados bancários (FEBRABAN)", example: "true" },
         ],
-        returns: "Dados da cidade (nome, UF) + lista completa de feriados.",
+        returns: "Dados da cidade (nome, UF) + lista completa de feriados com indicador bancário.",
     },
     {
         name: "verificar_data",
@@ -63,6 +67,31 @@ export const toolDetails = [
             { name: "data", type: "string", required: true, desc: "Data no formato YYYY-MM-DD", example: "2026-12-25" },
         ],
         returns: "Se é feriado ou não, com detalhes de todos os feriados naquela data.",
+    },
+    {
+        name: "feriados_bancarios",
+        icon: "🏦",
+        title: "Feriados Bancários (FEBRABAN)",
+        description:
+            "Lista feriados bancários do calendário oficial FEBRABAN. Ideal para cálculos de vencimentos e prazos bancários.",
+        params: [
+            { name: "ano", type: "string", required: false, desc: "Ano com 4 dígitos", example: "2026" },
+            { name: "uf", type: "string", required: false, desc: "Sigla do estado para incluir bancários estaduais", example: "SP" },
+            { name: "ibge", type: "string", required: false, desc: "Código IBGE para incluir bancários municipais", example: "3550308" },
+            { name: "facultativos", type: "boolean", required: false, desc: "Incluir feriados facultativos bancários", example: "true" },
+        ],
+        returns: "Lista de feriados bancários FEBRABAN com nome, data, tipo e descrição.",
+    },
+    {
+        name: "verificar_dia_util_bancario",
+        icon: "🏧",
+        title: "Verificar Dia Útil Bancário",
+        description:
+            "Verifica se uma data é dia útil bancário. Se não for, retorna o motivo e o próximo dia útil. Ideal para \"o banco abre amanhã?\".",
+        params: [
+            { name: "data", type: "string", required: true, desc: "Data no formato YYYY-MM-DD", example: "2026-02-16" },
+        ],
+        returns: "Se é dia útil bancário, motivo (se não for) e próximo dia útil bancário.",
     },
     {
         name: "listar_estados",

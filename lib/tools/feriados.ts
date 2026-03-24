@@ -11,7 +11,7 @@ function formatHolidayList(feriados: any[]): string {
     return feriados
         .map(
             (f) =>
-                `📅 ${f.data} — ${f.nome} (${f.tipo})${f.descricao ? `\n   ${f.descricao}` : ""}`
+                `📅 ${f.data} — ${f.nome} (${f.tipo})${f.bancario ? " 🏦" : ""}${f.descricao ? `\n   ${f.descricao}` : ""}`
         )
         .join("\n\n");
 }
@@ -28,11 +28,11 @@ export function registerFeriadosTools(server: McpServer) {
         "buscar_feriados",
         {
             title: "Buscar Feriados",
-            description: `Busca feriados brasileiros com filtros flexíveis. 
+            description: `Busca feriados brasileiros com filtros flexíveis.
 Use esta tool para consultas gerais quando precisar filtrar por múltiplos critérios ao mesmo tempo.
 Pode filtrar por data, tipo (NACIONAL/ESTADUAL/MUNICIPAL/FACULTATIVO), estado (UF), cidade (código IBGE), ano e mês.
 Para buscas mais específicas, prefira usar as tools especializadas (feriados_nacionais, feriados_por_estado, etc.).
-Retorna lista paginada de feriados com nome, data (DD/MM/YYYY), tipo e descrição.`,
+Retorna lista paginada de feriados com nome, data (DD/MM/YYYY), tipo, descrição e indicador bancário (FEBRABAN).`,
             inputSchema: z.object({
                 date: z
                     .string()
@@ -61,16 +61,20 @@ Retorna lista paginada de feriados com nome, data (DD/MM/YYYY), tipo e descriç�
                     .string()
                     .optional()
                     .describe("Mês de 1 a 12 (requer que 'ano' também seja informado)"),
+                bancarios: z
+                    .boolean()
+                    .optional()
+                    .describe("Se true, retorna apenas feriados bancários (calendário FEBRABAN)"),
             }),
         },
-        async ({ date, type, uf, ibge, ano, month }) => {
+        async ({ date, type, uf, ibge, ano, month, bancarios }) => {
             try {
                 const data = await feriadosApi<{
                     feriados: unknown[];
                     meta: unknown;
                 }>({
                     path: "/feriados",
-                    params: { date, type, uf, ibge, ano, month },
+                    params: { date, type, uf, ibge, ano, month, bancarios: bancarios ? "true" : undefined },
                 });
 
                 const text =
@@ -112,9 +116,13 @@ Se nenhum ano for informado, retorna feriados de todos os anos disponíveis.`,
                     .describe(
                         "Se true, inclui feriados facultativos nacionais (ex: Carnaval, Corpus Christi)"
                     ),
+                bancarios: z
+                    .boolean()
+                    .optional()
+                    .describe("Se true, retorna apenas feriados bancários (calendário FEBRABAN)"),
             }),
         },
-        async ({ ano, facultativos }) => {
+        async ({ ano, facultativos, bancarios }) => {
             try {
                 const data = await feriadosApi<{
                     feriados: unknown[];
@@ -124,12 +132,14 @@ Se nenhum ano for informado, retorna feriados de todos os anos disponíveis.`,
                     params: {
                         ano,
                         facultativos: facultativos ? "true" : undefined,
+                        bancarios: bancarios ? "true" : undefined,
                     },
                 });
 
                 let header = "🇧🇷 Feriados Nacionais";
                 if (ano) header += ` — ${ano}`;
-                if (facultativos) header += " (com facultativos)";
+                if (bancarios) header += " (bancários)";
+                else if (facultativos) header += " (com facultativos)";
 
                 const text =
                     header +
@@ -172,9 +182,13 @@ As siglas dos estados (UF) são: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS,
                     .boolean()
                     .optional()
                     .describe("Se true, inclui feriados facultativos do estado"),
+                bancarios: z
+                    .boolean()
+                    .optional()
+                    .describe("Se true, retorna apenas feriados bancários (calendário FEBRABAN)"),
             }),
         },
-        async ({ uf, ano, facultativos }) => {
+        async ({ uf, ano, facultativos, bancarios }) => {
             try {
                 const data = await feriadosApi<{
                     uf: string;
@@ -185,6 +199,7 @@ As siglas dos estados (UF) são: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS,
                     params: {
                         ano,
                         facultativos: facultativos ? "true" : undefined,
+                        bancarios: bancarios ? "true" : undefined,
                     },
                 });
 
@@ -234,9 +249,13 @@ Exemplos de códigos IBGE: São Paulo = 3550308, Rio de Janeiro = 3304557, Belo 
                     .boolean()
                     .optional()
                     .describe("Se true, inclui feriados facultativos"),
+                bancarios: z
+                    .boolean()
+                    .optional()
+                    .describe("Se true, retorna apenas feriados bancários (calendário FEBRABAN)"),
             }),
         },
-        async ({ ibge, ano, facultativos }) => {
+        async ({ ibge, ano, facultativos, bancarios }) => {
             try {
                 const data = await feriadosApi<{
                     cidade: { ibge: number; nome: string; uf: string };
@@ -247,6 +266,7 @@ Exemplos de códigos IBGE: São Paulo = 3550308, Rio de Janeiro = 3304557, Belo 
                     params: {
                         ano,
                         facultativos: facultativos ? "true" : undefined,
+                        bancarios: bancarios ? "true" : undefined,
                     },
                 });
 
@@ -312,6 +332,132 @@ Se retornar lista vazia, a data NÃO é feriado.`,
                 const text =
                     `📅 ${data.data} — É FERIADO! (${data.total} feriado(s) nesta data)\n\n` +
                     formatHolidayList(data.feriados);
+                return { content: [{ type: "text" as const, text }] };
+            } catch (error) {
+                return {
+                    content: [
+                        {
+                            type: "text" as const,
+                            text: `❌ Erro: ${error instanceof Error ? error.message : String(error)}`,
+                        },
+                    ],
+                    isError: true,
+                };
+            }
+        }
+    );
+
+    // 6. feriados_bancarios
+    server.registerTool(
+        "feriados_bancarios",
+        {
+            title: "Feriados Bancários (FEBRABAN)",
+            description: `Lista todos os feriados bancários do calendário oficial FEBRABAN (Resolução 4.880/2020 do CMN).
+Inclui feriados nacionais + datas facultativas em que agências bancárias não funcionam: Carnaval (seg/ter), Quarta-feira de Cinzas, Corpus Christi e Véspera de Ano Novo (31/dez).
+Ideal para cálculos de vencimentos, compensações e prazos bancários.
+Pode filtrar por estado (UF) ou município (IBGE) para incluir feriados bancários estaduais/municipais.`,
+            inputSchema: z.object({
+                ano: z
+                    .string()
+                    .optional()
+                    .describe("Ano com 4 dígitos (ex: 2026)"),
+                uf: z
+                    .string()
+                    .length(2)
+                    .optional()
+                    .describe("Sigla do estado para incluir feriados estaduais bancários (ex: SP)"),
+                ibge: z
+                    .string()
+                    .optional()
+                    .describe("Código IBGE do município para incluir feriados municipais bancários"),
+                facultativos: z
+                    .boolean()
+                    .optional()
+                    .describe("Se true, inclui feriados facultativos bancários"),
+            }),
+        },
+        async ({ ano, uf, ibge, facultativos }) => {
+            try {
+                const data = await feriadosApi<{
+                    tipo: string;
+                    feriados: unknown[];
+                    meta: unknown;
+                }>({
+                    path: "/feriados/bancarios",
+                    params: {
+                        ano,
+                        uf: uf?.toUpperCase(),
+                        ibge,
+                        facultativos: facultativos ? "true" : undefined,
+                    },
+                });
+
+                let header = "🏦 Feriados Bancários (FEBRABAN)";
+                if (ano) header += ` — ${ano}`;
+                if (uf) header += ` — ${uf.toUpperCase()}`;
+
+                const text =
+                    header +
+                    "\n\n" +
+                    formatHolidayList(data.feriados) +
+                    formatMeta(data.meta);
+                return { content: [{ type: "text" as const, text }] };
+            } catch (error) {
+                return {
+                    content: [
+                        {
+                            type: "text" as const,
+                            text: `❌ Erro: ${error instanceof Error ? error.message : String(error)}`,
+                        },
+                    ],
+                    isError: true,
+                };
+            }
+        }
+    );
+
+    // 7. verificar_dia_util_bancario
+    server.registerTool(
+        "verificar_dia_util_bancario",
+        {
+            title: "Verificar Dia Útil Bancário",
+            description: `Verifica se uma data é dia útil bancário (agências abrem normalmente).
+Use quando o usuário perguntar "o banco abre amanhã?", "quando vence o boleto?", "qual o próximo dia útil bancário?".
+Se não for dia útil, retorna o motivo (feriado bancário ou fim de semana) e o próximo dia útil bancário.
+Considera o calendário oficial FEBRABAN incluindo Carnaval, Quarta de Cinzas, Corpus Christi e 31/dez.`,
+            inputSchema: z.object({
+                data: z
+                    .string()
+                    .describe("Data no formato YYYY-MM-DD (ex: 2026-02-16)"),
+            }),
+        },
+        async ({ data: dateStr }) => {
+            try {
+                const data = await feriadosApi<{
+                    data: string;
+                    dia_util_bancario: boolean;
+                    motivo?: string;
+                    proximo_dia_util?: string;
+                }>({
+                    path: `/feriados/dia-util-bancario/${dateStr}`,
+                });
+
+                if (data.dia_util_bancario) {
+                    return {
+                        content: [
+                            {
+                                type: "text" as const,
+                                text: `✅ ${data.data} — É dia útil bancário. Agências funcionam normalmente.`,
+                            },
+                        ],
+                    };
+                }
+
+                let text = `❌ ${data.data} — NÃO é dia útil bancário.`;
+                if (data.motivo) text += `\n📋 Motivo: ${data.motivo}`;
+                if (data.proximo_dia_util)
+                    text += `\n➡️ Próximo dia útil: ${data.proximo_dia_util}`;
+
                 return { content: [{ type: "text" as const, text }] };
             } catch (error) {
                 return {
