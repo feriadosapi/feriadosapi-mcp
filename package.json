@@ -1,6 +1,6 @@
 {
   "name": "@feriados-api/mcp-server",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "MCP Server para a API de Feriados Brasileiros — consulte feriados nacionais, estaduais e municipais direto no seu agente de IA",
   "publishConfig": {
     "access": "public"

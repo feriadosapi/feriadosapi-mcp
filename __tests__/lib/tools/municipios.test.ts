@@ -127,7 +127,7 @@ describe("Municípios Tools", () => {
 
         it("deve retornar erro formatado quando API falha", async () => {
             mockApi.mockRejectedValueOnce(
-                new Error("Rate limit excedido")
+                new Error("Limite de requisições excedido")
             );
 
             const handler = registeredTools.get("buscar_municipios")!.handler;
@@ -138,7 +138,7 @@ describe("Municípios Tools", () => {
 
             expect(result.isError).toBe(true);
             expect(result.content[0].text).toContain("❌ Erro:");
-            expect(result.content[0].text).toContain("Rate limit excedido");
+            expect(result.content[0].text).toContain("Limite de requisições excedido");
         });
     });
 });

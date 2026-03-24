@@ -123,7 +123,7 @@ export function Hero() {
                     }}
                 >
                     {[
-                        { value: "7", label: "Tools" },
+                        { value: "9", label: "Ferramentas" },
                         { value: "5.570", label: "Municípios" },
                         { value: "27", label: "Estados" },
                     ].map((s) => (

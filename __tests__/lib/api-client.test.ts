@@ -128,7 +128,7 @@ describe("feriadosApi", () => {
         );
     });
 
-    it("deve lançar erro específico para 429 (rate limit)", async () => {
+    it("deve lançar erro específico para 429 (limite de requisições)", async () => {
         mockFetch.mockResolvedValueOnce({
             ok: false,
             status: 429,
@@ -137,7 +137,7 @@ describe("feriadosApi", () => {
         });
 
         await expect(feriadosApi({ path: "/feriados" })).rejects.toThrow(
-            "Rate limit excedido"
+            "Limite de requisições excedido"
         );
     });
 

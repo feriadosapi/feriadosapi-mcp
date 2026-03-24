@@ -43,8 +43,8 @@ describe("Feriados Tools", () => {
 
     // ─── Tool Registration ───
 
-    it("deve registrar 5 tools de feriados", () => {
-        expect(server.registerTool).toHaveBeenCalledTimes(5);
+    it("deve registrar 7 ferramentas de feriados", () => {
+        expect(server.registerTool).toHaveBeenCalledTimes(7);
     });
 
     it("deve registrar buscar_feriados", () => {

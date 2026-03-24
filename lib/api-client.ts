@@ -8,12 +8,12 @@ interface ApiRequestOptions {
 }
 
 /**
- * Makes HTTP requests to the Feriados API.
+ * Faz requisições HTTP para a Feriados API.
  *
- * API key resolution order:
- * 1. Explicit `apiKey` passed in options (from user via URL param)
- * 2. `FERIADOS_API_KEY` env var (used in stdio mode)
- * If neither is provided, throws an error.
+ * Ordem de resolução da API key:
+ * 1. `apiKey` passada explicitamente nas opções (via parâmetro na URL)
+ * 2. Variável de ambiente `FERIADOS_API_KEY` (usado no modo stdio)
+ * Se nenhuma for fornecida, lança um erro.
  */
 export async function feriadosApi<T>(options: ApiRequestOptions): Promise<T> {
     const apiKey = options.apiKey || process.env.FERIADOS_API_KEY;
@@ -26,7 +26,7 @@ export async function feriadosApi<T>(options: ApiRequestOptions): Promise<T> {
 
     const url = new URL(`${BASE_URL}/api/v1${options.path}`);
 
-    // Adicionar query params (ignorar undefined)
+    // Adiciona query params (ignora undefined)
     if (options.params) {
         Object.entries(options.params).forEach(([key, value]) => {
             if (value !== undefined) {
@@ -56,7 +56,7 @@ export async function feriadosApi<T>(options: ApiRequestOptions): Promise<T> {
                 throw new Error(`Acesso negado: ${errorMessage}`);
             case 429:
                 throw new Error(
-                    "Rate limit excedido. Plano Free: 60 req/min. Para remover limites, faça upgrade em https://feriadosapi.com/dashboard"
+                    "Limite de requisições excedido. Plano Gratuito: 60 req/min. Para aumentar o limite, faça upgrade em https://feriadosapi.com/dashboard"
                 );
             case 404:
                 throw new Error(`Recurso não encontrado: ${errorMessage}`);

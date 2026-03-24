@@ -50,15 +50,17 @@ Obtenha uma API key gratuita em [feriadosapi.com](https://feriadosapi.com) e con
 }
 ```
 
-## 🛠️ Tools Disponíveis
+## 🛠️ Ferramentas Disponíveis
 
-| Tool | Descrição |
-|------|-----------|
+| Ferramenta | Descrição |
+|------------|-----------|
 | `buscar_feriados` | Busca com filtros flexíveis (data, tipo, UF, IBGE, ano, mês) |
 | `feriados_nacionais` | Feriados nacionais do Brasil |
 | `feriados_por_estado` | Feriados por estado (UF) |
 | `feriados_por_cidade` | Feriados por cidade (código IBGE) |
 | `verificar_data` | Verifica se uma data é feriado |
+| `feriados_bancarios` | Feriados bancários do calendário FEBRABAN |
+| `verificar_dia_util_bancario` | Verifica se uma data é dia útil bancário |
 | `listar_estados` | Lista estados brasileiros |
 | `buscar_municipios` | Busca municípios por UF |
 
