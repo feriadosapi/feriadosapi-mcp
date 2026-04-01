@@ -10,10 +10,6 @@ agente de IA favorito usando o [Model Context Protocol](https://modelcontextprot
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![smithery badge](https://smithery.ai/badge/feriadosapi/brazilian-holidays)](https://smithery.ai/servers/feriadosapi/brazilian-holidays)
 
-<a href="https://glama.ai/mcp/servers/@feriadosapi/feriadosapi">
-<img width="380" height="200" src="https://glama.ai/mcp/servers/@feriadosapi/feriadosapi/badge" />
-</a>
-
 ## ⚡ Quick Start
 
 ### Opção 1: URL Remota (recomendado)
