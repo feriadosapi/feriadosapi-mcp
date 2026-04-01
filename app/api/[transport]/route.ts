@@ -9,7 +9,7 @@ const handler = createMcpHandler(
     {
         serverInfo: {
             name: "feriadosapi",
-            version: "1.0.0",
+            version: "1.0.16",
         },
         capabilities: {
             tools: {},

@@ -98,7 +98,7 @@ export function Footer() {
                     color: "#475569",
                 }}
             >
-                © 2026 Feriados API. Todos os direitos reservados. Desenvolvido com ❤️
+                © {new Date().getFullYear()} Feriados API. Todos os direitos reservados. Desenvolvido com ❤️
                 no Brasil 🇧🇷
             </div>
         </footer>
