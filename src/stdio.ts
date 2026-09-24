@@ -1,10 +1,11 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { registerAllTools } from "../lib/register-tools.js";
+import { MCP_VERSION } from "../lib/api-client.js";
 
 const server = new McpServer({
     name: "feriadosapi",
-    version: "1.0.16",
+    version: MCP_VERSION,
 });
 
 registerAllTools(server);

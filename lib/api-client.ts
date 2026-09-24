@@ -1,3 +1,5 @@
+export const MCP_VERSION = "1.0.18";
+
 const BASE_URL =
     process.env.FERIADOS_API_BASE_URL || "https://feriadosapi.com";
 
@@ -39,6 +41,8 @@ export async function feriadosApi<T>(options: ApiRequestOptions): Promise<T> {
         headers: {
             "X-API-Key": apiKey,
             "Content-Type": "application/json",
+            "User-Agent": `feriadosapi-mcp/${MCP_VERSION}`,
+            "X-Client-Source": "mcp",
         },
     });
 

@@ -1,5 +1,6 @@
 import { createMcpHandler } from "mcp-handler";
 import { registerAllTools } from "@/lib/register-tools";
+import { MCP_VERSION } from "@/lib/api-client";
 import { NextRequest } from "next/server";
 
 const handler = createMcpHandler(
@@ -9,7 +10,7 @@ const handler = createMcpHandler(
     {
         serverInfo: {
             name: "feriadosapi",
-            version: "1.0.16",
+            version: MCP_VERSION,
         },
         capabilities: {
             tools: {},

@@ -54,6 +54,20 @@ describe("feriadosApi", () => {
         expect(mockFetch).not.toHaveBeenCalled();
     });
 
+    it("deve enviar User-Agent e X-Client-Source identificando o MCP", async () => {
+        mockFetch.mockResolvedValueOnce({
+            ok: true,
+            json: () => Promise.resolve({ data: "ok" }),
+        });
+
+        await feriadosApi({ path: "/feriados" });
+
+        expect(mockFetch).toHaveBeenCalledOnce();
+        const [, options] = mockFetch.mock.calls[0];
+        expect(options.headers["User-Agent"]).toContain("feriadosapi-mcp");
+        expect(options.headers["X-Client-Source"]).toBe("mcp");
+    });
+
     // ─── URL Construction ───
 
     it("deve montar a URL corretamente com base path", async () => {
