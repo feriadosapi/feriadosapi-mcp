@@ -8,7 +8,7 @@ agente de IA favorito usando o [Model Context Protocol](https://modelcontextprot
 [![GitHub issues](https://img.shields.io/github/issues/feriadosapi/feriadosapi-mcp?style=flat-square)](https://github.com/feriadosapi/feriadosapi-mcp/issues)
 [![GitHub last commit](https://img.shields.io/github/last-commit/feriadosapi/feriadosapi-mcp?style=flat-square)](https://github.com/feriadosapi/feriadosapi-mcp/commits/main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![smithery badge](https://smithery.ai/badge/feriadosapi/brazilian-holidays)](https://smithery.ai/servers/feriadosapi/brazilian-holidays)
+[![LightNow capabilities](https://lightnow.ai/badge/io.github.feriadosapi/feriadosapi-mcp)](https://lightnow.ai/servers/io.github.feriadosapi/feriadosapi-mcp)
 
 ## ⚡ Quick Start
 
