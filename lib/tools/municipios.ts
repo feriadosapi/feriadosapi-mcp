@@ -34,13 +34,14 @@ O Brasil possui mais de 5.500 municípios; use o filtro de UF para resultados ma
                     .describe("Itens por página (default: 50, max: 100)"),
             }),
         },
-        async ({ uf, page, limit }) => {
+        async ({ uf, page, limit }, extra) => {
             try {
                 const data = await feriadosApi<{
                     municipios: { ibge: number; nome: string; uf: string }[];
                     meta: { total: number; page: number; total_pages: number };
                 }>({
                     path: "/municipios",
+                    apiKey: extra?.authInfo?.token,
                     params: {
                         uf: uf?.toUpperCase(),
                         page: page?.toString(),

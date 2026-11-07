@@ -1,15 +1,49 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { feriadosApi } from "../../lib/api-client";
+import { feriadosApi, enableEnvApiKeyFallback } from "../../lib/api-client";
 
 // Mock global fetch
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);
+
+describe("feriadosApi — modo remoto (sem fallback de env)", () => {
+    const originalEnv = process.env;
+
+    beforeEach(() => {
+        vi.resetAllMocks();
+        vi.resetModules();
+        process.env = { ...originalEnv, FERIADOS_API_KEY: "fapi_server_key" };
+    });
+
+    afterEach(() => {
+        process.env = originalEnv;
+    });
+
+    it("NÃO deve usar FERIADOS_API_KEY do env quando o fallback não foi habilitado", async () => {
+        const { feriadosApi: freshApi } = await import("../../lib/api-client");
+
+        await expect(freshApi({ path: "/feriados" })).rejects.toThrow(
+            "API Key não fornecida"
+        );
+        expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("deve usar somente a apiKey da requisição", async () => {
+        const { feriadosApi: freshApi } = await import("../../lib/api-client");
+        mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({}) });
+
+        await freshApi({ path: "/feriados", apiKey: "fapi_cliente_a" });
+
+        const [, options] = mockFetch.mock.calls[0];
+        expect(options.headers["X-API-Key"]).toBe("fapi_cliente_a");
+    });
+});
 
 describe("feriadosApi", () => {
     const originalEnv = process.env;
 
     beforeEach(() => {
         vi.resetAllMocks();
+        enableEnvApiKeyFallback(); // comportamento do modo stdio
         process.env = { ...originalEnv };
         process.env.FERIADOS_API_KEY = "fapi_test_key_123";
     });

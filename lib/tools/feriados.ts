@@ -67,13 +67,14 @@ Retorna lista paginada de feriados com nome, data (DD/MM/YYYY), tipo, descriçã
                     .describe("Se true, retorna apenas feriados bancários (calendário FEBRABAN)"),
             }),
         },
-        async ({ date, type, uf, ibge, ano, month, bancarios }) => {
+        async ({ date, type, uf, ibge, ano, month, bancarios }, extra) => {
             try {
                 const data = await feriadosApi<{
                     feriados: unknown[];
                     meta: unknown;
                 }>({
                     path: "/feriados",
+                    apiKey: extra?.authInfo?.token,
                     params: { date, type, uf, ibge, ano, month, bancarios: bancarios ? "true" : undefined },
                 });
 
@@ -122,13 +123,14 @@ Se nenhum ano for informado, retorna feriados de todos os anos disponíveis.`,
                     .describe("Se true, retorna apenas feriados bancários (calendário FEBRABAN)"),
             }),
         },
-        async ({ ano, facultativos, bancarios }) => {
+        async ({ ano, facultativos, bancarios }, extra) => {
             try {
                 const data = await feriadosApi<{
                     feriados: unknown[];
                     meta: unknown;
                 }>({
                     path: "/feriados/nacionais",
+                    apiKey: extra?.authInfo?.token,
                     params: {
                         ano,
                         facultativos: facultativos ? "true" : undefined,
@@ -188,7 +190,7 @@ As siglas dos estados (UF) são: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS,
                     .describe("Se true, retorna apenas feriados bancários (calendário FEBRABAN)"),
             }),
         },
-        async ({ uf, ano, facultativos, bancarios }) => {
+        async ({ uf, ano, facultativos, bancarios }, extra) => {
             try {
                 const data = await feriadosApi<{
                     uf: string;
@@ -196,6 +198,7 @@ As siglas dos estados (UF) são: AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS,
                     meta: unknown;
                 }>({
                     path: `/feriados/estado/${uf.toUpperCase()}`,
+                    apiKey: extra?.authInfo?.token,
                     params: {
                         ano,
                         facultativos: facultativos ? "true" : undefined,
@@ -255,7 +258,7 @@ Exemplos de códigos IBGE: São Paulo = 3550308, Rio de Janeiro = 3304557, Belo 
                     .describe("Se true, retorna apenas feriados bancários (calendário FEBRABAN)"),
             }),
         },
-        async ({ ibge, ano, facultativos, bancarios }) => {
+        async ({ ibge, ano, facultativos, bancarios }, extra) => {
             try {
                 const data = await feriadosApi<{
                     cidade: { ibge: number; nome: string; uf: string };
@@ -263,6 +266,7 @@ Exemplos de códigos IBGE: São Paulo = 3550308, Rio de Janeiro = 3304557, Belo 
                     meta: unknown;
                 }>({
                     path: `/feriados/cidade/${ibge}`,
+                    apiKey: extra?.authInfo?.token,
                     params: {
                         ano,
                         facultativos: facultativos ? "true" : undefined,
@@ -308,7 +312,7 @@ Se retornar lista vazia, a data NÃO é feriado.`,
                     .describe("Data no formato YYYY-MM-DD (ex: 2026-12-25)"),
             }),
         },
-        async ({ data: dateStr }) => {
+        async ({ data: dateStr }, extra) => {
             try {
                 const data = await feriadosApi<{
                     data: string;
@@ -316,6 +320,7 @@ Se retornar lista vazia, a data NÃO é feriado.`,
                     total: number;
                 }>({
                     path: `/feriados/data/${dateStr}`,
+                    apiKey: extra?.authInfo?.token,
                 });
 
                 if (data.total === 0) {
@@ -376,7 +381,7 @@ Pode filtrar por estado (UF) ou município (IBGE) para incluir feriados bancári
                     .describe("Se true, inclui feriados facultativos bancários"),
             }),
         },
-        async ({ ano, uf, ibge, facultativos }) => {
+        async ({ ano, uf, ibge, facultativos }, extra) => {
             try {
                 const data = await feriadosApi<{
                     tipo: string;
@@ -384,6 +389,7 @@ Pode filtrar por estado (UF) ou município (IBGE) para incluir feriados bancári
                     meta: unknown;
                 }>({
                     path: "/feriados/bancarios",
+                    apiKey: extra?.authInfo?.token,
                     params: {
                         ano,
                         uf: uf?.toUpperCase(),
@@ -431,7 +437,7 @@ Considera o calendário oficial FEBRABAN incluindo Carnaval, Quarta de Cinzas, C
                     .describe("Data no formato YYYY-MM-DD (ex: 2026-02-16)"),
             }),
         },
-        async ({ data: dateStr }) => {
+        async ({ data: dateStr }, extra) => {
             try {
                 const data = await feriadosApi<{
                     data: string;
@@ -440,6 +446,7 @@ Considera o calendário oficial FEBRABAN incluindo Carnaval, Quarta de Cinzas, C
                     proximo_dia_util?: string;
                 }>({
                     path: `/feriados/dia-util-bancario/${dateStr}`,
+                    apiKey: extra?.authInfo?.token,
                 });
 
                 if (data.dia_util_bancario) {

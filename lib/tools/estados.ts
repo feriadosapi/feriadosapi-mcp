@@ -12,13 +12,14 @@ Use quando precisar consultar as siglas dos estados ou quando o usuário pergunt
 Retorna sigla (UF) e nome completo de cada estado.`,
             inputSchema: z.object({}),
         },
-        async () => {
+        async (_args, extra) => {
             try {
                 const data = await feriadosApi<{
                     estados: { uf: string; nome: string }[];
                     total: number;
                 }>({
                     path: "/estados",
+                    apiKey: extra?.authInfo?.token,
                 });
 
                 const list = data.estados

@@ -1,4 +1,4 @@
-export const MCP_VERSION = "1.0.18";
+export const MCP_VERSION = "1.0.19";
 
 const BASE_URL =
     process.env.FERIADOS_API_BASE_URL || "https://feriadosapi.com";
@@ -10,15 +10,29 @@ interface ApiRequestOptions {
 }
 
 /**
+ * Fallback para `FERIADOS_API_KEY` só é permitido no modo stdio (processo
+ * dedicado a um único usuário). No modo remoto (Vercel / Fluid Compute) uma
+ * mesma instância atende vários clientes ao mesmo tempo, então ler a chave de
+ * `process.env` poderia usar a credencial de outro cliente.
+ */
+let envApiKeyFallbackEnabled = false;
+
+export function enableEnvApiKeyFallback() {
+    envApiKeyFallbackEnabled = true;
+}
+
+/**
  * Faz requisições HTTP para a Feriados API.
  *
  * Ordem de resolução da API key:
- * 1. `apiKey` passada explicitamente nas opções (via parâmetro na URL)
- * 2. Variável de ambiente `FERIADOS_API_KEY` (usado no modo stdio)
+ * 1. `apiKey` passada explicitamente nas opções (vinda do contexto da requisição MCP)
+ * 2. Variável de ambiente `FERIADOS_API_KEY` — apenas no modo stdio
  * Se nenhuma for fornecida, lança um erro.
  */
 export async function feriadosApi<T>(options: ApiRequestOptions): Promise<T> {
-    const apiKey = options.apiKey || process.env.FERIADOS_API_KEY;
+    const apiKey =
+        options.apiKey ||
+        (envApiKeyFallbackEnabled ? process.env.FERIADOS_API_KEY : undefined);
 
     if (!apiKey) {
         throw new Error(

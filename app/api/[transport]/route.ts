@@ -1,4 +1,5 @@
-import { createMcpHandler } from "mcp-handler";
+import { createMcpHandler, withMcpAuth } from "mcp-handler";
+import type { AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
 import { registerAllTools } from "@/lib/register-tools";
 import { MCP_VERSION } from "@/lib/api-client";
 import { NextRequest } from "next/server";
@@ -31,25 +32,30 @@ function corsOptions(res: Response) {
 }
 
 /**
- * Wraps the MCP handler to extract apiKey from URL query params (BYOK model).
- * If the user passes ?apiKey=fapi_xxx, it's set as the env var for this request.
- * Serverless functions are isolated per invocation, so this is safe.
+ * Resolve a credencial do cliente POR REQUISIÇÃO (BYOK).
+ *
+ * Aceita, em ordem: `Authorization: Bearer <key>`, header `X-API-Key` ou
+ * `?apiKey=` na URL (legado). O valor é anexado como `authInfo` da requisição
+ * e chega às tools via `extra.authInfo.token` — nunca via `process.env`, que é
+ * compartilhado entre requisições concorrentes na mesma instância (Fluid Compute).
  */
-function withApiKey(
-    mcpHandler: (req: NextRequest) => Promise<Response>
-): (req: NextRequest) => Promise<Response> {
-    return async (req: NextRequest) => {
-        const url = new URL(req.url);
-        const userApiKey = url.searchParams.get("apiKey");
-        if (userApiKey) {
-            process.env.FERIADOS_API_KEY = userApiKey;
-        }
-        const res = await mcpHandler(req);
-        return corsOptions(res);
-    };
+function verifyApiKey(req: Request, bearerToken?: string): AuthInfo | undefined {
+    const token =
+        bearerToken?.trim() ||
+        req.headers.get("x-api-key")?.trim() ||
+        new URL(req.url).searchParams.get("apiKey")?.trim();
+
+    if (!token) return undefined;
+
+    return { token, clientId: "feriadosapi-byok", scopes: [] };
 }
 
-const wrappedHandler = withApiKey(handler);
+const authHandler = withMcpAuth(handler, verifyApiKey, { required: false });
+
+async function wrappedHandler(req: NextRequest): Promise<Response> {
+    const res = await authHandler(req);
+    return corsOptions(res);
+}
 
 export { wrappedHandler as GET, wrappedHandler as POST };
 

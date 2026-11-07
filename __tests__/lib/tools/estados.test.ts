@@ -78,6 +78,15 @@ describe("Estados Tools", () => {
             expect(mockApi).toHaveBeenCalledWith({ path: "/estados" });
         });
 
+        it("deve repassar a API key do contexto da requisição (extra.authInfo)", async () => {
+            mockApi.mockResolvedValueOnce({ estados: [], total: 0 });
+
+            const handler = registeredTools.get("listar_estados")!.handler;
+            await handler({}, { authInfo: { token: "fapi_req_key", clientId: "x", scopes: [] } });
+
+            expect(mockApi).toHaveBeenCalledWith({ path: "/estados", apiKey: "fapi_req_key" });
+        });
+
         it("deve retornar erro formatado quando API falha", async () => {
             mockApi.mockRejectedValueOnce(new Error("Connection timeout"));
 
