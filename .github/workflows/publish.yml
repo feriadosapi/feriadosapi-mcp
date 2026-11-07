@@ -11,10 +11,10 @@ jobs:
     name: Build and Publish
     runs-on: ubuntu-latest
 
-    # PERMISSÕES OBRIGATÓRIAS PARA OIDC E PROVENANCE
+    # PERMISSÕES OBRIGATÓRIAS PARA OIDC E PROVENANCE (Trusted Publishing)
     permissions:
       contents: write
-
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -28,16 +28,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x' # Bumped to Node 22 for better NPM OIDC support
+          node-version: '22.x'
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Upgrade npm for OIDC Trusted Publishing (requires npm >= 11.5.1)
+        run: npm install -g npm@latest
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build stdio (npm package)
-        run: npm run build:stdio 
+        run: npm run build:stdio
 
-      - name: Publish package
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish package via OIDC Trusted Publisher
+        run: npm publish --access public --provenance
