@@ -27,17 +27,21 @@ const handler = createMcpHandler(
 function corsOptions(res: Response) {
     res.headers.set("Access-Control-Allow-Origin", "*");
     res.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, x-api-key");
+    res.headers.set(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization, x-api-key, MCP-Protocol-Version"
+    );
+    res.headers.set("Access-Control-Expose-Headers", "WWW-Authenticate");
     return res;
 }
 
 /**
- * Resolve a credencial do cliente POR REQUISIÇÃO (BYOK).
+ * Resolve a credencial do cliente POR REQUISIÇÃO (OAuth 2.1 Bearer ou BYOK legado).
  *
- * Aceita, em ordem: `Authorization: Bearer <key>`, header `X-API-Key` ou
- * `?apiKey=` na URL (legado). O valor é anexado como `authInfo` da requisição
- * e chega às tools via `extra.authInfo.token` — nunca via `process.env`, que é
- * compartilhado entre requisições concorrentes na mesma instância (Fluid Compute).
+ * Aceita, em ordem: `Authorization: Bearer <token>`, header `X-API-Key` ou
+ * `?apiKey=` na URL (legado). Quando nenhuma credencial é enviada, `withMcpAuth`
+ * responde `401 Unauthorized` com `WWW-Authenticate: Bearer ... resource_metadata="..."`
+ * disparando automaticamente o fluxo OAuth 2.1 + PKCE nos clientes MCP.
  */
 function verifyApiKey(req: Request, bearerToken?: string): AuthInfo | undefined {
     const token =
@@ -47,10 +51,13 @@ function verifyApiKey(req: Request, bearerToken?: string): AuthInfo | undefined 
 
     if (!token) return undefined;
 
-    return { token, clientId: "feriadosapi-byok", scopes: [] };
+    return { token, clientId: "feriadosapi-mcp", scopes: ["holidays:read"] };
 }
 
-const authHandler = withMcpAuth(handler, verifyApiKey, { required: false });
+const authHandler = withMcpAuth(handler, verifyApiKey, {
+    required: true,
+    resourceMetadataPath: "/.well-known/oauth-protected-resource",
+});
 
 async function wrappedHandler(req: NextRequest): Promise<Response> {
     const res = await authHandler(req);

@@ -77,14 +77,29 @@ describe("route /api/[transport] — isolamento da API key", () => {
         );
     });
 
-    it("sem chave NÃO herda a chave de uma requisição anterior nem do env", async () => {
+    it("sem chave retorna 401 com WWW-Authenticate (OAuth) e NÃO herda a chave anterior nem do env", async () => {
         await (await POST(toolCall(1, { url: `${ORIGIN}/api/mcp?apiKey=fapi_cliente_a` }))).text();
         mockFetch.mockClear();
 
-        const body = await (await POST(toolCall(2))).text();
+        const res = await POST(toolCall(2));
+        const body = await res.text();
 
+        expect(res.status).toBe(401);
+        expect(res.headers.get("WWW-Authenticate")).toContain(
+            'resource_metadata="https://mcp.feriadosapi.com/.well-known/oauth-protected-resource"'
+        );
         expect(keysSentToApi()).toEqual([]);
-        expect(body).toContain("API Key não fornecida");
+        expect(body).toContain("invalid_token");
         expect(process.env.FERIADOS_API_KEY).toBe("fapi_SERVER_ENV");
+    });
+
+    it("expõe /.well-known/oauth-protected-resource apontando para feriadosapi.com", async () => {
+        const { GET: metadataGet } = await import(
+            "../../app/.well-known/oauth-protected-resource/route"
+        );
+        const res = metadataGet(new Request(`${ORIGIN}/.well-known/oauth-protected-resource`));
+        expect(res.status).toBe(200);
+        const json = await res.json();
+        expect(json.authorization_servers).toContain("https://feriadosapi.com");
     });
 });
