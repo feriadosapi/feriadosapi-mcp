@@ -44,10 +44,13 @@ function corsOptions(res: Response) {
  * disparando automaticamente o fluxo OAuth 2.1 + PKCE nos clientes MCP.
  */
 function verifyApiKey(req: Request, bearerToken?: string): AuthInfo | undefined {
+    const searchParams = new URL(req.url).searchParams;
     const token =
         bearerToken?.trim() ||
         req.headers.get("x-api-key")?.trim() ||
-        new URL(req.url).searchParams.get("apiKey")?.trim();
+        searchParams.get("apiKey")?.trim() ||
+        searchParams.get("apikey")?.trim() ||
+        searchParams.get("api_key")?.trim();
 
     if (!token) return undefined;
 
