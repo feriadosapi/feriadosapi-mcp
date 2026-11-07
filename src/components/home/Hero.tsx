@@ -49,12 +49,13 @@ export function Hero() {
                         fontSize: 18,
                         lineHeight: 1.7,
                         color: "rgba(255,255,255,0.85)",
-                        maxWidth: 560,
+                        maxWidth: 580,
                         margin: "0 auto 32px",
                     }}
                 >
-                    Consulte feriados nacionais, estaduais e municipais usando o{" "}
-                    <strong>Model Context Protocol</strong>. Uma URL. Zero configuração.
+                    Consulte feriados nacionais, estaduais, municipais e bancários usando o{" "}
+                    <strong>Model Context Protocol</strong>. Agora com{" "}
+                    <strong>login OAuth 2.1 em 1 clique</strong> (sem copiar chaves) ou via API Key.
                 </p>
 
                 {/* URL Copy Box */}
@@ -72,18 +73,18 @@ export function Hero() {
                         color: "#7dd3fc",
                     }}
                 >
-                    <span style={{ color: "rgba(255,255,255,0.5)" }}>URL:</span>
+                    <span style={{ color: "rgba(255,255,255,0.5)" }}>URL (OAuth 2.1):</span>
                     {MCP_URL}
                 </div>
 
                 <p
                     style={{
                         fontSize: 13,
-                        color: "rgba(255,255,255,0.5)",
+                        color: "rgba(255,255,255,0.65)",
                         marginTop: 12,
                     }}
                 >
-                    Cole esta URL nas configurações de MCP do seu cliente de IA
+                    Cole esta URL no seu cliente MCP para autenticar no navegador via OAuth 2.1 — ou use <code style={{ color: "#7dd3fc" }}>?apiKey=sua_chave</code> / <code style={{ color: "#7dd3fc" }}>npx</code>
                 </p>
 
                 {/* npm badge */}

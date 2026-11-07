@@ -12,25 +12,50 @@ agente de IA favorito usando o [Model Context Protocol](https://modelcontextprot
 
 ## ⚡ Quick Start
 
-### Opção 1: URL Remota (recomendado)
+### Opção 1: URL Remota com OAuth 2.1 (Recomendado — Sem copiar chaves!)
 
-Adicione ao seu cliente de IA:
+Em clientes compatíveis com o padrão de autorização MCP (Cursor, Claude Desktop, Claude.ai, VS Code, ChatGPT, MCP Inspector), basta adicionar a URL remota limpa:
+
+```json
+{
+  "mcpServers": {
+    "feriadosapi": {
+      "url": "https://mcp.feriadosapi.com/api/mcp"
+    }
+  }
+}
+```
+
+Ao conectar, seu navegador abrirá automaticamente a página da [Feriados API](https://feriadosapi.com) para você entrar com sua conta (Google, GitHub ou E-mail), selecionar qual organização será debitada e autorizar o agente com **OAuth 2.1 + PKCE**.
+
+### Opção 2: URL Remota com API Key (BYOK / Legado)
+
+Se o seu cliente MCP não usar OAuth interativo ou rodar em background, passe sua chave via header `Authorization` / `X-API-Key` ou query parameter `?apiKey=`:
+
+```json
+{
+  "mcpServers": {
+    "feriadosapi": {
+      "url": "https://mcp.feriadosapi.com/api/mcp",
+      "headers": {
+        "Authorization": "Bearer sk_live_sua_chave_aqui"
+      }
+    }
+  }
+}
+```
+
+Ou diretamente na URL:
 
 ```
-https://mcp.feriadosapi.com/api/mcp
+https://mcp.feriadosapi.com/api/mcp?apiKey=sk_live_sua_chave_aqui
 ```
 
-**Com sua própria API key (BYOK):**
+> 💡 Crie uma conta gratuita em [feriadosapi.com](https://feriadosapi.com) — acesso gratuito a feriados nacionais, estaduais, capitais e calendário bancário (60 req/min).
 
-```
-https://mcp.feriadosapi.com/api/mcp?apiKey=fapi_sua_chave_aqui
-```
+### Opção 3: Via `npx` (Execução Local / `stdio`)
 
-> 💡 Crie uma conta gratuita em [feriadosapi.com](https://feriadosapi.com) para obter sua API key — acesso ilimitado a feriados nacionais, estaduais e capitais (60 req/min).
-
-### Opção 2: Via npx (local)
-
-Obtenha uma API key gratuita em [feriadosapi.com](https://feriadosapi.com) e configure:
+Execute localmente via Node.js passando sua `FERIADOS_API_KEY`:
 
 ```json
 {
@@ -39,7 +64,7 @@ Obtenha uma API key gratuita em [feriadosapi.com](https://feriadosapi.com) e con
       "command": "npx",
       "args": ["-y", "@feriados-api/mcp-server"],
       "env": {
-        "FERIADOS_API_KEY": "fapi_sua_chave_aqui"
+        "FERIADOS_API_KEY": "sk_live_sua_chave_aqui"
       }
     }
   }
@@ -198,12 +223,13 @@ Após configurar, pergunte ao seu agente:
 
 ## 🔑 Autenticação
 
-Uma API key é **obrigatória**. Crie uma conta gratuita em [feriadosapi.com](https://feriadosapi.com) (acesso ilimitado, 60 req/min) e passe sua chave:
+O servidor MCP suporta **3 modos de autenticação**, todos integrados às cotas e métricas por usuário/conexão do seu Dashboard em [feriadosapi.com](https://feriadosapi.com/dashboard):
 
-- **Via URL remota:** `?apiKey=fapi_xxx` na URL do MCP
-- **Via stdio (local):** env var `FERIADOS_API_KEY`
+1. **OAuth 2.1 + PKCE S256 (Recomendado):** Conecte-se diretamente a `https://mcp.feriadosapi.com/api/mcp` sem informar chave. O cliente MCP descobre automaticamente os endpoints RFC 9728 / RFC 8414 e abre o navegador para autorização e seleção da organização. Você pode pausar ou revogar o agente a qualquer momento na aba **Chaves de API** do Dashboard.
+2. **Via URL Remota com API Key (BYOK):** Passe `Authorization: Bearer sk_live_...`, `X-API-Key: sk_live_...` ou `?apiKey=sk_live_...` na URL do MCP.
+3. **Via `stdio` (Local via `npx`):** Defina a variável de ambiente `FERIADOS_API_KEY`.
 
-> ⚠️ Sem uma API key válida, todas as chamadas retornarão erro de autenticação.
+> ⚠️ Sem autenticação válida (OAuth 2.1 ou API Key), chamadas de ferramentas não são executadas e o servidor responde `401 Unauthorized` iniciando o desafio OAuth.
 
 ## 🏗️ Desenvolvimento Local
 

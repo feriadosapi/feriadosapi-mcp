@@ -1,4 +1,4 @@
-export const MCP_VERSION = "1.0.20";
+export const MCP_VERSION = "1.0.21";
 
 const BASE_URL =
     process.env.FERIADOS_API_BASE_URL || "https://feriadosapi.com";
