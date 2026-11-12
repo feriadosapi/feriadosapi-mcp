@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     siteName: "Feriados API — MCP Server",
     title: "Feriados API — MCP Server",
     description:
-      "Consulte feriados brasileiros direto no seu agente de IA com MCP. 7 tools, 5.570 municípios, 27 estados. Uma URL, zero configuração.",
+      "Consulte feriados brasileiros direto no seu agente de IA com MCP. 9 tools, 5.571 municípios, 27 estados. Uma URL, zero configuração.",
   },
 
   // Twitter Card

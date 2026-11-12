@@ -125,7 +125,7 @@ export function Hero() {
                 >
                     {[
                         { value: "9", label: "Ferramentas" },
-                        { value: "5.570", label: "Municípios" },
+                        { value: "5.571", label: "Municípios" },
                         { value: "27", label: "Estados" },
                     ].map((s) => (
                         <div key={s.label}>

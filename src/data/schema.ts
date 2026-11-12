@@ -16,6 +16,6 @@ export const jsonLd = {
         "@type": "Offer",
         price: "0",
         priceCurrency: "BRL",
-        description: "Gratuito — acesso ilimitado a feriados nacionais, estaduais e capitais",
+        description: "Gratuito — acesso ilimitado a feriados nacionais, estaduais, bancários (FEBRABAN) e das 27 capitais",
     },
 };

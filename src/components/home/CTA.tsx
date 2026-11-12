@@ -26,7 +26,7 @@ export function CTA() {
                     margin: "0 auto 32px",
                 }}
             >
-                Crie uma conta gratuita na Feriados API — acesso ilimitado a feriados nacionais, estaduais e capitais.
+                Crie uma conta gratuita na Feriados API — acesso ilimitado a feriados nacionais, estaduais, bancários (FEBRABAN) e das 27 capitais.
             </p>
             <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
                 <a
@@ -41,7 +41,7 @@ export function CTA() {
                         display: "inline-block",
                     }}
                 >
-                    Começar Teste Gratuito →
+                    Criar Conta Gratuita →
                 </a>
                 <a
                     href="https://feriadosapi.com/docs"
