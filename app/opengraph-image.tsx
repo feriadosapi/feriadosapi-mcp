@@ -306,51 +306,89 @@ export default async function OgImage(): Promise<ImageResponse> {
                 TOOL
               </span>
               <span style={{ color: "#f1f5f9", fontWeight: 600 }}>
-                verificar_feriado
+                verificar_data
               </span>
             </div>
 
-            {/* JSON Payload Body */}
+            {/* MCP Tool Input & Text Response Body */}
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                padding: "26px 28px",
-                fontFamily: "monospace",
-                fontSize: 24,
-                lineHeight: 1.65,
+                padding: "24px 28px",
+                gap: 20,
               }}
             >
-              <span style={{ color: "#64748b" }}>{"{"}</span>
-
-              <div style={{ display: "flex", paddingLeft: 20 }}>
-                <span style={{ color: "#7dd3fc" }}>"ibge"</span>
-                <span style={{ color: "#94a3b8", marginRight: 10 }}>:</span>
-                <span style={{ color: "#fde047" }}>"3550308"</span>
-                <span style={{ color: "#64748b" }}>,</span>
+              {/* Input argument */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontFamily: "monospace",
+                  fontSize: 21,
+                  color: "#94a3b8",
+                }}
+              >
+                <span style={{ color: "#64748b", marginRight: 10 }}>data:</span>
+                <span style={{ color: "#fde047", fontWeight: 600 }}>
+                  "2026-12-25"
+                </span>
               </div>
 
-              <div style={{ display: "flex", paddingLeft: 20 }}>
-                <span style={{ color: "#7dd3fc" }}>"feriado"</span>
-                <span style={{ color: "#94a3b8", marginRight: 10 }}>:</span>
-                <span style={{ color: "#4ade80", fontWeight: 700 }}>true</span>
-                <span style={{ color: "#64748b" }}>,</span>
+              {/* Formatted MCP text output */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  borderLeft: "4px solid #2dd4bf",
+                  paddingLeft: 18,
+                  gap: 8,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 24,
+                    fontWeight: 800,
+                    color: "#4ade80",
+                    letterSpacing: -0.5,
+                  }}
+                >
+                  2026-12-25 — É FERIADO!
+                </span>
+                <span
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 700,
+                    color: "#f8fafc",
+                  }}
+                >
+                  Natal (Nacional)
+                </span>
+                <span
+                  style={{
+                    fontSize: 19,
+                    fontWeight: 600,
+                    color: "#94a3b8",
+                  }}
+                >
+                  1 feriado(s) nesta data
+                </span>
               </div>
 
-              <div style={{ display: "flex", paddingLeft: 20 }}>
-                <span style={{ color: "#7dd3fc" }}>"bancario"</span>
-                <span style={{ color: "#94a3b8", marginRight: 10 }}>:</span>
-                <span style={{ color: "#f87171", fontWeight: 700 }}>false</span>
-                <span style={{ color: "#64748b" }}>,</span>
+              {/* Client compatibility footer */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  paddingTop: 6,
+                  fontSize: 18,
+                  fontWeight: 700,
+                  color: "#2dd4bf",
+                  letterSpacing: 0.2,
+                }}
+              >
+                Claude · Cursor · VS Code
               </div>
-
-              <div style={{ display: "flex", paddingLeft: 20 }}>
-                <span style={{ color: "#7dd3fc" }}>"claude"</span>
-                <span style={{ color: "#94a3b8", marginRight: 10 }}>:</span>
-                <span style={{ color: "#2dd4bf" }}>"connected"</span>
-              </div>
-
-              <span style={{ color: "#64748b" }}>{"}"}</span>
             </div>
           </div>
         </div>
